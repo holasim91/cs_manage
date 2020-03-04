@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import "./App.css";
 import Customer from "./components/Customer";
 import Paper from '@material-ui/core/Paper'
@@ -8,6 +8,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import {makeStyles} from '@material-ui/core/styles'
+
 
 const theme = {
   spacing: 4,
@@ -27,35 +28,21 @@ const useStyles = makeStyles(
   }
 });
 
-const customers = [
-  {
-    id: 1,
-    img: "https://placeimg.com/64/64/1",
-    name: "Thor",
-    birth: "950413",
-    gender: "male",
-    job: "son of odin"
-  },
-  {
-    id: 2,
-    img: "https://placeimg.com/64/64/2",
-    name: "Natasha",
-    birth: "920222",
-    gender: "female",
-    job: "Black Widow"
-  },
-  {
-    id: 3,
-    img: "https://placeimg.com/64/64/3",
-    name: "Peter Quill",
-    birth: "910413",
-    gender: "male",
-    job: "Star Lord"
-  }
-];
+
 
 export default function App() {
   const classes = useStyles()
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("/api/customers");
+      res.json()
+        .then(res => setCustomers(res))
+    }
+
+    fetchData();
+  },[]);
   return (
 
     <Paper className={classes.root}>
@@ -71,7 +58,7 @@ export default function App() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.map(customer => (
+          {customers?customers.map(customer => (
             <Customer
               key={customer.id}
               id={customer.id}
@@ -81,7 +68,7 @@ export default function App() {
               gender={customer.gender}
               job={customer.job}
             />
-          ))}
+          )):""}
         </TableBody>
       </Table>
     </Paper>
