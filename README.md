@@ -1,3 +1,7 @@
+## Management System for Customer
+This system is managing for customer and imporve React Skill.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
