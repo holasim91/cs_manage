@@ -18,7 +18,6 @@ const connection = mysql.createConnection({
   port: conf.port,
   database: conf.database
 })
-console.log(connection)
 connection.connect()
 
 
