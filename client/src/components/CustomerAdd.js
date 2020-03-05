@@ -38,11 +38,21 @@ export default function CustomerAdd() {
         .then((response)=>{
             console.log(response.data)
         })
+        setValue({
+            file:null,
+            name:'',
+            birth:'',
+            gender:'',
+            job:'',
+            fileName:''
+    
+        })
+        window.location.reload()
 
     }
 
     function addCustomer(){
-        const url = '/api/customers'
+        const url = 'api/customers'
         const formData = new FormData()
         formData.append('image', data.file)
         formData.append('name', data.name)
