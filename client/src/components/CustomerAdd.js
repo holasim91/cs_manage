@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {post} from 'axios'
 
-export default function CustomerAdd() {
+export default function CustomerAdd(props) {
     const initialDataState = {
         file:null,
         name:'',
@@ -30,13 +30,14 @@ export default function CustomerAdd() {
             fileName: e.target.value
         })
     }
-
+    // const refresh = props.refreshState()
     function handleFormSubmit(e){
         e.preventDefault();
         console.log(data.name, data.birth, data.job, data.gender);
         addCustomer()
         .then((response)=>{
             console.log(response.data)
+            props.refreshState()
         })
         setValue({
             file:null,
@@ -47,7 +48,6 @@ export default function CustomerAdd() {
             fileName:''
     
         })
-        window.location.reload()
 
     }
 

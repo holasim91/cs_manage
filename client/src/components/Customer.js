@@ -26,7 +26,7 @@ export default function Customer(props) {
       <TableRow>
         <TableCell>{props.id}</TableCell>
         <TableCell>
-          <img src={props.img} alt="profile" />
+          <img src={props.img} alt="profile" width='64px' height='64px' />
         </TableCell>
         <TableCell>{props.name}</TableCell>
         <TableCell>{props.birth}</TableCell>

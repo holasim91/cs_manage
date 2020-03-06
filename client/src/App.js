@@ -24,6 +24,13 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const classes = useStyles();
   const [customers, setCustomers] = useState([]);
+  const [refresh , setRefresh]=useState({
+    file: null,
+    name: '',
+    birth:'',
+    gender :'',
+    job:'',
+   filename:''  })
   useEffect(() => {
     async function fetchData() {
       const res = await fetch("/api/customers");
@@ -33,6 +40,14 @@ export default function App() {
     fetchData();
   }, []);
 
+  function RefreshState(){
+    setRefresh(refresh)
+    async function fetchData() {
+      const res = await fetch("/api/customers");
+      res.json().then(res => setCustomers(res));
+    }
+    fetchData()
+  }
   return (
     <div>
       <Paper className={classes.root}>
@@ -64,7 +79,7 @@ export default function App() {
           </TableBody>
         </Table>
       </Paper>
-      <CustomerAdd/>
+      <CustomerAdd refreshState={RefreshState}/>
     </div>
   );
 }
