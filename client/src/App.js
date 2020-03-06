@@ -60,12 +60,14 @@ export default function App() {
               <TableCell>생년월일</TableCell>
               <TableCell>성별</TableCell>
               <TableCell>직업</TableCell>
+              <TableCell>설정</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {customers
               ? customers.map(customer => (
                   <Customer
+                    refreshState={RefreshState}
                     key={customer.id}
                     id={customer.id}
                     img={customer.image}

@@ -1,6 +1,7 @@
 import React from "react";
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import CustomerDelete from "./CustomerDelete";
 
 
 export default function Customer(props) {
@@ -32,6 +33,7 @@ export default function Customer(props) {
         <TableCell>{props.birth}</TableCell>
         <TableCell>{props.gender}</TableCell>
         <TableCell>{props.job}</TableCell>
+        <TableCell><CustomerDelete refreshState={props.refreshState} id={props.id}/></TableCell>
       </TableRow>
   );
 }
