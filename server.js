@@ -52,7 +52,7 @@ app.delete("/api/customers/:id", (req, res) => {
   let params = [req.params.id];
   connection.query(sql, params, (err, rows, field) => {
     res.send(rows);
-    (err => console.log(err))
+    err => console.log(err);
   });
 });
 
