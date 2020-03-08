@@ -6,7 +6,7 @@ import CustomerDelete from "./CustomerDelete";
 export default function Customer(props) {
   return (
     <TableRow>
-      <TableCell>{props.id}</TableCell>
+      <TableCell>{props.index+1}</TableCell>
       <TableCell>
         <img src={props.img} alt="profile" width="64px" height="64px" />
       </TableCell>

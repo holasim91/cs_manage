@@ -15,6 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import InputBase from "@material-ui/core/InputBase";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles, fade } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -22,6 +23,10 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
     minWidth: 1080
   },
+  progress:{
+    marginLeft: theme.spacing(2),
+  },
+
   paper: {
     marginLeft: 18,
     marginRight: 18
@@ -99,24 +104,40 @@ export default function App() {
   const [keyword, setKeyword] = useState({
     searchKeayword: ""
   });
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       const res = await fetch("/api/customers");
-      res.json().then(res => setCustomers(res));
+      const body = await res.json()
+      return body
     }
+    fetchData()
+    .then(res => setCustomers(res))
+    .catch(err => console.log(err))
 
-    fetchData();
+    function tick() {
+      setProgress(oldProgress => (oldProgress >= 100 ? 0 : oldProgress + 1))
+    }
+    const timer = setInterval(tick, 20);
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   function RefreshState() {
     setRefresh(refresh);
     setKeyword(keyword);
+    setProgress(progress)
+
     async function fetchData() {
       const res = await fetch("/api/customers");
-      res.json().then(res => setCustomers(res));
+      const body = await res.json()
+      return body
     }
-    fetchData();
+    fetchData()
+    .then(res => setCustomers(res))
+    .catch(err => console.log(err))
   }
 
   function handleValueChange(e) {
@@ -128,11 +149,12 @@ export default function App() {
     data = data.filter(c => {
       return c.name.indexOf(keyword.searchKeayword) > -1;
     });
-    return data.map(customer => {
+    return data.map((customer, idx) => {
       return (
         <Customer
           stateRefresh={RefreshState}
-          key={customer.id}
+          key={idx}
+          index ={idx}
           id={customer.id}
           img={customer.image}
           name={customer.name}
@@ -177,6 +199,7 @@ export default function App() {
             </div>
           </Toolbar>
         </AppBar>
+
         <div className={classes.menu}>
           <CustomerAdd refreshState={RefreshState} />
         </div>
@@ -191,7 +214,15 @@ export default function App() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers ? filteredComponents(customers) : "Data Fetching..."}
+            {customers.length!==0 ? (
+              filteredComponents(customers)
+            ) : (
+              <TableRow>
+                <TableCell colSpan="7" align="center">
+                  <CircularProgress className={classes.progress} variant="determinate" value={progress} />
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </Paper>
